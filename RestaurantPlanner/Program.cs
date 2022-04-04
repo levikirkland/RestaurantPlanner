@@ -56,6 +56,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();
 
 app.UseAuthorization();
 
@@ -66,7 +67,6 @@ app.UseEndpoints(endpoints =>
     endpoints.MapDefaultControllerRoute();
     endpoints.MapRazorPages(); // This one!
 });
-app.UseAuthentication();
 
 app.ConfigureApi();
 if (app.Environment.IsDevelopment())
