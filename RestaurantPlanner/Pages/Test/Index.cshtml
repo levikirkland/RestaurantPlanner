@@ -1,0 +1,32 @@
+﻿@page
+@model IndexModel
+@using Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+        {
+
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+
+                <div class="info">
+                    <a href="#" class="d-block">
+                        @UserManager.GetUserAsync(User).Result.FirstName @UserManager.GetUserAsync(User).Result.LastName @{
+                            if (User.IsInRole("SuperAdmin"))
+                            {
+                                <span class="badge badge-danger">SA</span>
+                            }
+                            else if (User.IsInRole("Basic"))
+                            {
+                                <span class="badge badge-success">BASIC</span>
+                            }
+                        }
+                    </a>
+                </div>
+            </div>
+}
+else
+{
+    <p> nothing found.</p>
+}
