@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using RestaurantPlanner.Data;
 using RestaurantPlanner.Models;
 
@@ -8,9 +8,10 @@ namespace RestaurantPlanner.Apis
     {
         public static void ConfigureApi(this WebApplication app)
         {
-            app.MapPost("AccountInfo", InsertAccountInfo);
+            app.MapPost("/AccountInfo/InsertAccountInfo", InsertAccountInfo);
         }
 
+        [NonAction]
         private static async Task<IResult> InsertAccountInfo(AccountInfo accountInfo, ApplicationDbContext context)
         {
             try

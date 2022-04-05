@@ -29,7 +29,13 @@ namespace RestaurantPlanner.Extensions
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             collection.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(connectionString));
+                options.UseSqlServer(connectionString, options =>
+                {
+                    options.EnableRetryOnFailure(
+                        maxRetryCount: 3,
+                        maxRetryDelay: TimeSpan.FromSeconds(10),
+                        errorNumbersToAdd: new List<int> { 4060 }); //additional error codes to treat as transient
+                }));
             collection.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.Password.RequireDigit = true;

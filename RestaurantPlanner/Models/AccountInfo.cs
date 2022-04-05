@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 using RestaurantPlanner.Common;
+using RestaurantPlanner.Events;
 
 namespace RestaurantPlanner.Models
 {
@@ -30,8 +31,21 @@ namespace RestaurantPlanner.Models
         public AccountTypes AccountType { get; set; }
         [Display(Name = "Deactivation Date")]
         public DateTime? DeactivationDate { get; set; }
-        public bool? IsActive { get; set; } 
-        public DateTime SignUpDate { get; set; }
+        public bool? IsActive { get; set; }
+        private DateTime _signUpDate;
+
+        public DateTime SignUpDate 
+        { 
+            get  => _signUpDate; 
+            set
+            { 
+                if (value == DateTime.Today)
+                {
+                    DomainEvents.Add(new CreatedNewAccountEvent(this));
+                }
+            }
+        }
+
         [NotMapped]
         public string USPhone => String.Format("{0:(###) ###-####}", $"{Phone}");
         [NotMapped]

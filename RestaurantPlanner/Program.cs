@@ -4,13 +4,15 @@ using RestaurantPlanner.Models;
 using Microsoft.AspNetCore.Identity;
 using NToastNotify;
 using RestaurantPlanner.Apis;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.RegisterRepos();
 builder.Services.RegisterAuth(builder.Configuration);
-
 builder.Services.AddRazorPages();
+
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMvc(o =>
 {
     //Add Authentication to all Controllers by default.
@@ -24,7 +26,10 @@ builder.Services.AddMvc(o =>
     PositionClass = ToastPositions.BottomCenter
 });
 
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+});
 
 var app = builder.Build();
 
@@ -68,10 +73,14 @@ app.UseEndpoints(endpoints =>
     endpoints.MapRazorPages(); // This one!
 });
 
-app.ConfigureApi();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+    });
 }
+app.ConfigureApi();
+
 app.Run();
