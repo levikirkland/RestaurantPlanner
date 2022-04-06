@@ -16,6 +16,7 @@ namespace RestaurantPlanner.Data
             await roleManager.CreateAsync(new IdentityRole(Roles.Manager.ToString()));
             await roleManager.CreateAsync(new IdentityRole(Roles.Associate.ToString()));
         }
+
         public static async Task SeedSuperAdminAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             //Seed Default User

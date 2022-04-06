@@ -18,6 +18,7 @@ namespace RestaurantPlanner.Extensions
             collection.AddTransient<IDateTime, DateTimeService>();
             collection.AddTransient<IIdentityService, IdentityService>();
             collection.AddTransient<IDomainEventService, DomainEventService>();
+            collection.AddTransient<IInitializationService, InitializationService>();   
             collection.AddMediatR(Assembly.GetExecutingAssembly());
         }
 
@@ -25,6 +26,7 @@ namespace RestaurantPlanner.Extensions
         {
 
         }
+
         public static void RegisterAuth(this IServiceCollection collection, IConfiguration Configuration)
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
