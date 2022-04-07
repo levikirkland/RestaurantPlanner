@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using RestaurantPlanner.Common.Enums;
 using RestaurantPlanner.Interfaces;
 using RestaurantPlanner.Models;
+using System.Security.Policy;
+using System.Text.Encodings.Web;
 
 namespace RestaurantPlanner.Services
 {
@@ -9,10 +13,12 @@ namespace RestaurantPlanner.Services
     public class InitializationService : IInitializationService
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IEmailSender _emailSender;
 
-        public InitializationService(UserManager<ApplicationUser> userManager)
+        public InitializationService(UserManager<ApplicationUser> userManager, IEmailSender emailSender)
         {
             _userManager = userManager;
+            _emailSender = emailSender;
         }
 
         public async Task SeedNewSuperAdminUser(AccountInfo accountInfo)
@@ -28,7 +34,8 @@ namespace RestaurantPlanner.Services
                 PhoneNumberConfirmed = true,
                 CreatedBy = "api-SeedNewSuperAdmin",
                 ModifiedBy = "api-SeedNewSuperAdmin",
-                AccountInfoId = accountInfo.Id
+                AccountInfoId = accountInfo.Id,
+                Active = true
             };
             if (_userManager.Users.All(u => u.Id != defaultUser.Id))
             {
@@ -41,6 +48,10 @@ namespace RestaurantPlanner.Services
                     await _userManager.AddToRoleAsync(defaultUser, Roles.Admin.ToString());
                     await _userManager.AddToRoleAsync(defaultUser, Roles.SuperAdmin.ToString());
                 }
+
+                await _emailSender.SendEmailAsync(defaultUser.Email, "Confirm your email",
+                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode("#")}'>clicking here</a>.");
+
             }
         }
     }

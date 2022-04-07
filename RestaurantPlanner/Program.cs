@@ -5,13 +5,24 @@ using Microsoft.AspNetCore.Identity;
 using NToastNotify;
 using RestaurantPlanner.Apis;
 using Microsoft.OpenApi.Models;
+using FluentValidation.AspNetCore;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.RegisterRepos();
 builder.Services.RegisterAuth(builder.Configuration);
 builder.Services.AddRazorPages();
+builder.Services.AddControllers()
+                .AddFluentValidation(options =>
+                {
+                    // Validate child properties and root collection elements
+                    options.ImplicitlyValidateChildProperties = true;
+                    options.ImplicitlyValidateRootCollectionElements = true;
 
+                    // Automatic registration of validators in assembly
+                    options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+                });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMvc(o =>
 {
