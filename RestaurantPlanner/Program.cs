@@ -11,9 +11,6 @@ using Azure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
-builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
-
 builder.Services.RegisterRepos();
 builder.Services.RegisterAuth(builder.Configuration);
 builder.Services.AddRazorPages();
@@ -96,6 +93,6 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
     });
 }
-app.ConfigureApi();
+//app.ConfigureApi();
 
 app.Run();
