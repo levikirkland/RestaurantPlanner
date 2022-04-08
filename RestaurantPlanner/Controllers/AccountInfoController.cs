@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RestaurantPlanner.Data;
 using RestaurantPlanner.Interfaces;
 using RestaurantPlanner.Models;
 
 namespace RestaurantPlanner.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+ 
     [Authorize]
-    public class AccountInfoController : ControllerBase
+    public class AccountInfoController : ApiControllerBaseBase
     {
         private readonly ApplicationDbContext _context;
 
@@ -19,7 +19,7 @@ namespace RestaurantPlanner.Controllers
             _context = context;
         }
 
-        [HttpGet]
+        [HttpPost]
         private static async Task<IResult> InsertAccountInfo(AccountInfo accountInfo, ApplicationDbContext context, [FromServices] IInitializationService service)
         {
             try
@@ -36,6 +36,38 @@ namespace RestaurantPlanner.Controllers
             catch (Exception ex)
             {
                 return Results.Problem(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        private static async Task<IResult> CreateNewSuperAdminUser(AccountInfo accountInfo, [FromServices] IInitializationService service)
+        {
+            try
+            {
+                await service.SeedNewSuperAdminUser(accountInfo);
+                return Results.Ok();
+            }
+            catch (Exception ex)
+            {
+                return Results.Problem(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        private static async Task<IResult> IsUniqueEmail(string EmailAddress, ApplicationDbContext context)
+        {
+            try
+            {
+                var emailFound = await context.Accounts.AnyAsync(l => l.EmailAddress == EmailAddress);
+                if (emailFound)
+                    return Results.Created($"/AccountInfo/IsUniqueEmail/{EmailAddress}", false); //not Unique
+
+                return Results.Created($"/AccountInfo/IsUniqueEmail/{EmailAddress}", true); //is unique
+            }
+            catch (Exception ex)
+            {
+                return Results.Problem(ex.Message);
+
             }
         }
     }

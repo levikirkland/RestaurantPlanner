@@ -24,4 +24,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Applicatoin\AccountInfo\EventHandlers\" />
+    <Folder Include="Applicatoin\AccountInfo\Queries\" />
+  </ItemGroup>
+
 </Project>
