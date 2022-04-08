@@ -7,7 +7,6 @@ using RestaurantPlanner.Apis;
 using Microsoft.OpenApi.Models;
 using FluentValidation.AspNetCore;
 using System.Reflection;
-using Azure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
