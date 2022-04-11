@@ -1,37 +1,38 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using RestaurantPlanner.Attributes;
 using RestaurantPlanner.Data;
 using RestaurantPlanner.Interfaces;
 using RestaurantPlanner.Models;
 
 namespace RestaurantPlanner.Controllers
 {
- 
-    [Authorize]
-    public class AccountInfoController : ApiControllerBaseBase
+    [Route("api/[controller]")]
+    [ApiKey]
+    public class AccountInfoController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IInitializationService _initializationService;
 
-        public AccountInfoController(ApplicationDbContext context)
+        public AccountInfoController(ApplicationDbContext context, IInitializationService initializationService)
         {
             _context = context;
+            _initializationService = initializationService;
         }
 
         [HttpPost]
-        private static async Task<IResult> InsertAccountInfo(AccountInfo accountInfo, ApplicationDbContext context, [FromServices] IInitializationService service)
+        [Route("insertaccountinfo")]
+        public async Task<IResult> InsertAccountInfo([FromBody] AccountInfo accountInfo)
         {
             try
             {
-                // AccountInfo.DomainEvents.Add(new CreateNewCompanyEvent(AccountInfo));
+                await _context.Accounts.AddAsync(accountInfo);
+                await _context.SaveChangesAsync();
 
-                await context.Accounts.AddAsync(accountInfo);
-                await context.SaveChangesAsync();
+                await _initializationService.SeedNewSuperAdminUser(accountInfo);
 
-                await service.SeedNewSuperAdminUser(accountInfo);
-
-                return Results.Created($"/AccountInfo/InsertAccountInfo/{accountInfo.Id}", accountInfo);
+                return Results.Ok(accountInfo);
             }
             catch (Exception ex)
             {
@@ -40,11 +41,12 @@ namespace RestaurantPlanner.Controllers
         }
 
         [HttpPost]
-        private static async Task<IResult> CreateNewSuperAdminUser(AccountInfo accountInfo, [FromServices] IInitializationService service)
+        [Route("createnewsueradminuser")]
+        public async Task<IResult> CreateNewSuperAdminUser(AccountInfo accountInfo)
         {
             try
             {
-                await service.SeedNewSuperAdminUser(accountInfo);
+                await _initializationService.SeedNewSuperAdminUser(accountInfo);
                 return Results.Ok();
             }
             catch (Exception ex)
@@ -54,15 +56,16 @@ namespace RestaurantPlanner.Controllers
         }
 
         [HttpGet]
-        private static async Task<IResult> IsUniqueEmail(string EmailAddress, ApplicationDbContext context)
+        [Route("issuniqueemail")]
+        public async Task<IResult> IsUniqueEmail(string EmailAddress)
         {
             try
             {
-                var emailFound = await context.Accounts.AnyAsync(l => l.EmailAddress == EmailAddress);
+                var emailFound = await _context.Accounts.AnyAsync(l => l.EmailAddress == EmailAddress);
                 if (emailFound)
-                    return Results.Created($"/AccountInfo/IsUniqueEmail/{EmailAddress}", false); //not Unique
+                    return Results.Ok(false); //not Unique
 
-                return Results.Created($"/AccountInfo/IsUniqueEmail/{EmailAddress}", true); //is unique
+                return Results.Ok(true); //is unique
             }
             catch (Exception ex)
             {
