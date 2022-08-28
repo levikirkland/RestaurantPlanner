@@ -40,7 +40,7 @@ namespace RestaurantPlanner.Controllers
         }
 
         [HttpPost]
-        [Route("createnewsueradminuser")]
+        [Route("createnewsuperadminuser")]
         public async Task<IResult> CreateNewSuperAdminUser(AccountInfo accountInfo)
         {
             try
