@@ -3,15 +3,18 @@ using RestaurantPlanner.Extensions;
 using RestaurantPlanner.Models;
 using Microsoft.AspNetCore.Identity;
 using NToastNotify;
-using RestaurantPlanner.Apis;
 using Microsoft.OpenApi.Models;
 using FluentValidation.AspNetCore;
 using System.Reflection;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using RestaurantPlanner.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.RegisterRepos();
 builder.Services.RegisterAuth(builder.Configuration);
+
 builder.Services.AddRazorPages();
 builder.Services.AddControllers()
                 .AddFluentValidation(options =>
@@ -23,7 +26,6 @@ builder.Services.AddControllers()
                     // Automatic registration of validators in assembly
                     options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
                 });
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMvc(o =>
 {
     //Add Authentication to all Controllers by default.
@@ -37,9 +39,32 @@ builder.Services.AddMvc(o =>
     PositionClass = ToastPositions.BottomCenter
 });
 
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Restaurant Planner", Version = "v1" });
+    c.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
+    {
+        Description = "ApiKey must appear in header",
+        Type = SecuritySchemeType.ApiKey,
+        Name = "XApiKey",
+        In = ParameterLocation.Header,
+        Scheme = "ApiKeyScheme"
+    });
+    var key = new OpenApiSecurityScheme()
+    {
+        Reference = new OpenApiReference
+        {
+            Type = ReferenceType.SecurityScheme,
+            Id = "ApiKey"
+        },
+        In = ParameterLocation.Header
+    };
+    var requirement = new OpenApiSecurityRequirement
+                    {
+                             { key, new List<string>() }
+                    };
+    c.AddSecurityRequirement(requirement);
 });
 
 var app = builder.Build();
@@ -75,12 +100,15 @@ app.UseRouting();
 app.UseAuthentication();
 
 app.UseAuthorization();
+//app.UseMiddleware<ApiKeyMiddleware>();
 
-
-//app.MapRazorPages();
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapDefaultControllerRoute();
+    endpoints.MapControllers();
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+
     endpoints.MapRazorPages(); // This one!
 });
 
@@ -89,9 +117,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Restaurant Planner API");
     });
 }
-app.ConfigureApi();
 
 app.Run();

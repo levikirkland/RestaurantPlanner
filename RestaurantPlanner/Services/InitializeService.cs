@@ -1,10 +1,8 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using RestaurantPlanner.Common.Enums;
 using RestaurantPlanner.Interfaces;
 using RestaurantPlanner.Models;
-using System.Security.Policy;
 using System.Text.Encodings.Web;
 
 namespace RestaurantPlanner.Services
@@ -37,22 +35,19 @@ namespace RestaurantPlanner.Services
                 AccountInfoId = accountInfo.Id,
                 Active = true
             };
-            if (_userManager.Users.All(u => u.Id != defaultUser.Id))
+      
+            var user = await _userManager.FindByEmailAsync(defaultUser.Email);
+            if (user == null)  //email not found, continue with create
             {
-                var user = await _userManager.FindByEmailAsync(defaultUser.Email);
-                if (user == null)
-                {
-                    await _userManager.CreateAsync(defaultUser, "Ez(12345");
-                    await _userManager.AddToRoleAsync(defaultUser, Roles.Associate.ToString());
-                    await _userManager.AddToRoleAsync(defaultUser, Roles.Manager.ToString());
-                    await _userManager.AddToRoleAsync(defaultUser, Roles.Admin.ToString());
-                    await _userManager.AddToRoleAsync(defaultUser, Roles.SuperAdmin.ToString());
-                }
-
-                await _emailSender.SendEmailAsync(defaultUser.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode("#")}'>clicking here</a>.");
-
+                await _userManager.CreateAsync(defaultUser, "Ez(12345");
+                await _userManager.AddToRoleAsync(defaultUser, Roles.Associate.ToString());
+                await _userManager.AddToRoleAsync(defaultUser, Roles.Manager.ToString());
+                await _userManager.AddToRoleAsync(defaultUser, Roles.Admin.ToString());
+                await _userManager.AddToRoleAsync(defaultUser, Roles.SuperAdmin.ToString());
             }
+
+            await _emailSender.SendEmailAsync(defaultUser.Email, "Confirm your email",
+                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode("#")}'>clicking here</a>.");            
         }
     }
 }
