@@ -1,0 +1,54 @@
+﻿@page "{id:int}"
+@model WaterUtilPro.Pages.VendorManager.DeleteModel
+
+<div class="col-md-4">
+        <dl class="row m-0 p-0">
+            <dt class="col-sm-4 m-0 p-0">
+                @Html.DisplayNameFor(model => model.Vendor.Name)
+            </dt>
+            <dd class="col-sm-10 m-0 p-0">
+                @Html.DisplayFor(model => model.Vendor.Name)
+            </dd>
+            <dt class="col-sm-4 m-0 p-0">
+                @Html.DisplayNameFor(model => model.Vendor.Description)
+            </dt>
+            <dd class="col-sm-10 m-0 p-0">
+                @Html.DisplayFor(model => model.Vendor.Description)
+            </dd>
+            <dt class="col-sm-4 m-0 p-0">
+                @Html.DisplayNameFor(model => model.Vendor.Address)
+            </dt>
+            <dd class="col-sm-10 m-0 p-0">
+                @Html.DisplayFor(model => model.Vendor.Address)
+            </dd>
+            <dt class="col-sm-4 m-0 p-0">
+                @Html.DisplayNameFor(model => model.Vendor.City)
+            </dt>
+            <dd class="col-sm-10 m-0 p-0">
+                @Html.DisplayFor(model => model.Vendor.City)
+            </dd>
+            <dt class="col-sm-4 m-0 p-0">
+                @Html.DisplayNameFor(model => model.Vendor.State)
+            </dt>
+            <dd class="col-sm-10 m-0 p-0">
+                @Html.DisplayFor(model => model.Vendor.State)
+            </dd>
+            <dt class="col-sm-4 m-0 p-0">
+                @Html.DisplayNameFor(model => model.Vendor.PostalCode)
+            </dt>
+            <dd class="col-sm-10 m-0 p-0">
+                @Html.DisplayFor(model => model.Vendor.PostalCode)
+            </dd>
+            <dt class="col-sm-4 m-0 p-0">
+                @Html.DisplayNameFor(model => model.Vendor.IsActive)
+            </dt>
+            <dd class="col-sm-10 m-0 p-0">
+                @Html.DisplayFor(model => model.Vendor.IsActive)
+            </dd>
+        </dl>
+    <form method="post">
+        <input type="hidden" asp-for="Vendor.Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="./Index" class="btn-sm btn-outline-secondary">Back to List</a>
+    </form>
+</div>

@@ -1,0 +1,35 @@
+﻿@page "{id:int}"
+@model WaterUtilPro.Pages.Orders.DetailsModel
+
+<link rel="stylesheet" href="~/@(nameof(WaterUtilPro)).styles.css" />
+<h3>Order details</h3>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card-body">
+            <p class="card-description">Vendor Information</p>
+            <ul class=" list-unstyled">
+                <li class="about-items"><i class="fas fa-user"></i><span class="about-item-name">Inventory Item:</span><span class="about-item-detail">@Model.Orders.InventoryName</span></li>
+                <li class="about-items"><i class="fas fa-at"></i><span class="about-item-name">Vendor:</span><span class="about-item-detail">@Model.Orders.VendorName</span> </li>
+                <li class="about-items"><i class="fas fa-lock"></i><span class="about-item-name"></span><span class="about-item-detail"></span> </li>
+            </ul>
+            <p class="card-description">Contact Information</p>
+            <ul class="list-unstyled ">
+                <li class="about-items"><i class="fas fa-phone"></i><span class="about-item-name">Quantity:</span><span class="about-item-detail">@Model.Orders.Quantity</span></li>
+                <li class="about-items"><i class="fas fa-map-marker"></i><span class="about-item-name">PurchaseDate:</span><span class="about-item-detail">@Model.Orders.PurchaseDate</span></li>
+                <li class="about-items"><i class="fas fa-envelope"></i><span class="about-item-name">CancelDate:</span><span class="about-item-detail">@Model.Orders.CancelDate</span></li>
+                <li class="about-items"><i class="fas fa-globe"></i><span class="about-item-name">Active:</span><span class="about-item-detail">@Model.Orders.IsActive</span></li>
+            </ul>
+            <p class="card-description">Basic Information</p>
+            <ul class="list-unstyled">
+                <li class="about-items"><i class="fas fa-calendar"></i><span class="about-item-name">Created Date:</span><span class="about-item-detail">@Model.Orders.CreatedDate</span></li>
+
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+<div class="ml-2">
+    <a asp-page="./Edit" asp-route-id="@Model.Orders.Id" class="btn-sm btn-outline-secondary">Edit</a> |
+    <a asp-page="./Index" class="btn-sm btn-outline-secondary">Back to List</a>
+</div>

@@ -1,0 +1,50 @@
+﻿@page
+@model WaterUtilPro.Pages.Orders.CartModel
+
+<h3>Orders</h3>
+<div class="row">
+    <div class="col-md-12">
+            <div class="form-group p-2">
+                <input id="myInput" onkeyup="searchTable()" type="text" class="form-control" placeholder="Search by Name">
+            </div>
+            <table id="myTable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Inventory Item</th>
+                            <th>Vendor Name</th>
+                            <th>Quantity</th>
+                            <th>Active</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in @Model.Orders)
+                        {
+                        <tr>
+                            <td class="col-1">
+                                <a asp-page="/InventoryManager/Details" asp-route-id="@order.InventoryId" class="btn-sm btn-outline-secondary"><i class="fas fa-search pr-2"></i>@order.InventoryName</a>
+                            </td>
+                            <td class="col-1">
+                                <a asp-page="/VendorManager/Details" asp-route-id="@order.VendorId" class="btn-sm btn-outline-secondary"><i class="fas fa-search pr-2"></i>@order.VendorName</a>
+                            </td>
+                            <td class="col-1">@order.Quantity</td>
+                            <td class="col-1">
+                                @if (order.IsActive is true)
+                                {
+                                    <span class="badge badge-success">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-warning">InActive</span>
+                                }
+                            <td class="col-1">
+                                <a asp-page="#" asp-route-id="1" class="btn-sm btn-outline-secondary"><i class="fas fa-pen pr-2"></i>Edit</a>
+
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+    </div>
+</div>

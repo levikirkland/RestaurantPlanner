@@ -1,0 +1,145 @@
+﻿@page
+@using WaterUtilPro.Models.ViewModels
+@model WaterUtilPro.Pages.InventoryManager.IndexModel
+
+<h3>Inventory items</h3>
+<p class="col-1">
+    <a asp-page="Create" class="btn btn-sm btn-outline-secondary btn-block"><i class="fas fa-plus pr-2"></i>Create</a>
+</p>
+
+    <div class="form-group p-2">
+        <input id="myInput" onkeyup="searchTable()" type="text" class="form-control" placeholder="Search by Name">
+    </div>
+
+    <table id="myTable" class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Inventory[0].Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Inventory[0].UnitOfMeasure)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Inventory[0].Category)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Inventory[0].Location)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Inventory[0].QtyInStock)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Inventory[0].ReorderQty)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Inventory[0].UnitCost)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Inventory[0].IsActive)
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Inventory)
+            {
+                <tr>
+                    <td>
+                       <a asp-page="./Edit" asp-route-id="@item.Id" class="btn-outline-dark">
+                            <small><i class="fas fa-pen"></i></small>  @Html.DisplayFor(modelItem => item.Name)
+                        </a>
+                           <br />
+                        <small class="pl-2"> @Html.DisplayFor(modelItem => item.Description)</small>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitOfMeasure)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Location)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.QtyInStock)
+                        @if (item.QtyInStock < item.ReorderQty && item.OrderQuantity > 0)
+                        {
+                            <button class="badge badge-warning" data-bs-toggle="modal" data-bs-target="#cartModal" data-bs-id="@item.Id" data-bs-name="@item.Name">
+                                <i class="fas fa-shopping-cart"></i> Reorder
+                            </button>
+                        }
+                        @if (item.QtyInStock == item.ReorderQty && item.OrderQuantity > 0)
+                        {
+                            <button class="badge badge-info" data-bs-toggle="modal" data-bs-target="#cartModal" data-bs-id="@item.Id" data-bs-name="@item.Name">
+                                <i class="fas fa-shopping-cart"></i> Low Qty
+                            </button>
+                        }<br />
+                        <small>
+                            @Html.DisplayFor(modelItem => item.ReStockDate)
+                        </small>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReorderQty)
+                        
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitCost)
+                    </td>
+                    <td>
+                        @if (item.IsActive is true)
+                        {
+                            <span class="badge badge-success">True</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">False</span>
+                        }
+                    </td>
+
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@item.Id" class="btn-sm btn-outline-secondary"><i class="fas fa-pen pr-2"></i>Edit</a> |
+                        <a asp-page="./Details" asp-route-id="@item.Id" class="btn-sm btn-outline-secondary"><i class="fas fa-info-circle pr-2"></i>Details</a> |
+                        <a asp-page="./Delete" asp-route-id="@item.Id" class="btn-sm btn-outline-secondary"><i class="fas fa-trash pr-2"></i>Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+<!-- Modal -->
+<div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-secondary-subtle">
+                <h5 class="modal-title" id="cartModalLabel">Add item to Orders</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+               <input type="text col-1"  class="form-control bg-white" id="id-name" readonly />
+                <div class="col-4">
+                    <label for="recipient-name" class="col-form-label">Qty:</label>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
+                                <span class="fas fa-minus"></span>
+                            </button>
+                        </span>
+                        <input type="text" name="quant[1]" class="form-control input-number" value="1" min="1" max="10">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[1]">
+                                <span class="fas fa-plus"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-outline-secondary">Add</button>
+            </div>
+        </div>
+    </div>
+</div> 

@@ -1,0 +1,31 @@
+﻿@page "{id:int}"
+@model WaterUtilPro.Pages.InventoryManager.DeleteModel
+
+<h3>Inventory details</h3>
+<div class="col-md-4">
+    <dl class="row  m-0 m-1 p-0">
+        <dt class="col-sm-4 m-0 p-0">
+            @Html.DisplayNameFor(model => model.Inventory.Name)
+        </dt>
+        <dd class="col-sm-10 m-0 p-0">
+            @Html.DisplayFor(model => model.Inventory.Name)
+        </dd>
+        <dt class="col-sm-4 m-0 p-0">
+            @Html.DisplayNameFor(model => model.Inventory.Description)
+        </dt>
+        <dd class="col-sm-10 m-0 p-0">
+            @Html.DisplayFor(model => model.Inventory.Description)
+        </dd>
+        <dt class="col-sm-4 m-0 p-0">
+            @Html.DisplayNameFor(model => model.Inventory.IsActive)
+        </dt>
+        <dd class="col-sm-10 m-0 p-0">
+            @Html.DisplayFor(model => model.Inventory.IsActive)
+        </dd>
+    </dl>
+</div>
+<form method="post">
+    <input type="hidden" asp-for="Inventory.Id" />
+    <input type="submit" value="Delete" class="btn btn-danger" /> |
+    <a asp-page="./Index" class="btn-sm btn-outline-secondary">Back to List</a>
+</form>

@@ -1,0 +1,12 @@
+﻿@model bool
+<div class="form-group">
+    <label for="isActive">Active</label>
+    @if (Model == true)
+    {
+        <input type="checkbox" id="active" checked data-toggle="toggle" />
+    }
+    else
+    {
+        <input type="checkbox" id="active"  data-toggle="toggle" />
+    }
+</div>

@@ -1,0 +1,50 @@
+﻿
+p {
+    font-size: 0.875rem;
+    margin-bottom: .5rem;
+    line-height: 1.3rem;
+}
+
+!ul.about {
+    list-style: none;
+    color: black;
+    padding: 0;
+}
+
+li.about-items {
+    margin: 10px;
+    font-size: 1.0rem;
+}
+
+    li.about-items i {
+        color: #808080;
+    }
+
+span.about-item-name {
+    width: 100px;
+    display: inline-flex;
+    margin-left: 10px;
+}
+
+span.about-item-detail {
+    display: inline-flex;
+    width: calc(100% - 160px);
+}
+
+    span.about-item-detail > button {
+        margin-right: 10px;
+    }
+
+.btn.btn-icon {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+}
+
+.btn.btn-rounded {
+    border-radius: 50px;
+}
+
+a.about-item-edit {
+    float: right;
+}

@@ -1,0 +1,50 @@
+﻿@page "{id:int}"
+@using WaterUtilPro.Models
+@using WaterUtilPro.Models.ViewModels
+@model WaterUtilPro.Pages.InventoryManager.DetailsModel
+
+<h3>Inventory item details</h3>
+<div class="row">
+    <div class="col-md-4">
+            <div class="card-body">
+                <div class="d-flex ">
+                    <div class="w-100">
+                        <div class="d-flex flex-md-row flex-column">
+                            <h3 class="mr-3"> @Html.DisplayFor(model => model.Inventory.Name)</h3>
+                            <div class="ml-auto text-right">
+                                <h3>@Html.DisplayFor(model => model.Inventory.UnitCost)</h3>
+                                <small>Last Purchased: @Html.DisplayFor(model => model.Inventory.ReStockDate)</small>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <ul class="list-unstyled">
+                                        <li><i class="fas fa-info-circle"></i> <strong>@Html.DisplayNameFor(model => model.Inventory.UnitOfMeasure): </strong> @Model.Inventory.UnitOfMeasure</li>
+                                        <li><i class="fas fa-info-circle"></i> <strong> @Html.DisplayNameFor(model => model.Inventory.Category): </strong>@Model.Inventory.Category</li>
+                                        <li><i class="fas fa-info-circle"></i> <strong> @Html.DisplayNameFor(model => model.Inventory.Location): </strong>@Html.DisplayFor(model => model.Inventory.Location)</li>
+                                        <li><i class="fas fa-info-circle"></i> <strong>@Html.DisplayNameFor(model => model.Inventory.QtyInStock): </strong> @Html.DisplayFor(model => model.Inventory.QtyInStock)</li>
+                                        <li><i class="fas fa-info-circle"></i> <strong>@Html.DisplayNameFor(model => model.Inventory.ReorderQty): </strong> @Html.DisplayFor(model => model.Inventory.ReorderQty)</li>
+                                    </ul>
+                                </div>
+                                <div class="col-12">
+                                    <div class="d-flex flex-md-row flex-column align-items-center justify-content-end">
+                                        <button class="btn btn-sm btn-outline-success w-100 mb-md-0 mb-3 mr-md-3 mr-0"><i class="fas fa-phone"></i> Contact Seller</button>
+                                        <button class="btn btn-sm btn-outline-secondary w-100 mb-md-0 mb-3 mr-md-3 mr-0"><i class="fas fa-parking"></i> DeActivate</button>
+                                        <button class="btn btn-sm btn-outline-secondary w-100"><i class="fas fa-book"></i> Show Recipies</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+
+
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Inventory.Id" class="btn-sm btn-outline-secondary">Edit</a> |
+    <a asp-page="./Index" class="btn-sm btn-outline-secondary">Back to List</a>
+</div>

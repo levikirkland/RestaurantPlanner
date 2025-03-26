@@ -1,0 +1,17 @@
+﻿@using WaterUtilPro.Models.ViewModels
+@model ReorderViewModel
+<div class="form-group">
+    @if (Model.QtyInStock < Model.ReorderQty)
+    {
+        <a class="btn btn-small bg-danger">          
+            <i class="fas fa-shopping-cart"></i> Reorder
+        </a>
+    }
+    @if (Model.QtyInStock == Model.ReorderQty)
+    {
+        <a class="btn btn-small bg-warning">
+            <i class="fas fa-shopping-cart"></i> Low Qty
+        </a>
+    }
+
+</div>

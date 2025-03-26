@@ -1,0 +1,71 @@
+﻿@page "{id:int}"
+@model WaterUtilPro.Pages.InventoryManager.EditModel
+@using WaterUtilPro.Models
+
+<h3>Edit inventory item</h3>
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" asp-route-id="@Model.Inventory.Id">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Inventory.Name" class="control-label m-0 ml-1 p-0"></label>
+                    <input asp-for="Inventory.Name" class="form-control col-6 ml-1" />
+                    <span asp-validation-for="Inventory.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Inventory.Description" class="control-label m-0 ml-1 p-0"></label>
+                    <input asp-for="Inventory.Description" class="form-control col-6 ml-1" />
+                    <span asp-validation-for="Inventory.Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Inventory.UnitOfMeasureId" class="control-label m-0 ml-1 p-0"></label>
+                    <select name="Inventory.UnitOfMeasureId" class="form-control col-6" asp-for="Inventory.UnitOfMeasureId"
+                            asp-items="Model.UnitOfMeasureOptions">
+                    </select>
+                    <span asp-validation-for="Inventory.UnitOfMeasureId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Inventory.CategoryId" class="control-label m-0 ml-1 p-0"></label>
+                    <select name="Inventory.CategoryId" class="form-control col-6 ml-1" asp-for="Inventory.CategoryId"
+                            asp-items="Model.CategoryOptions">
+                    </select>
+                    <span asp-validation-for="Inventory.CategoryId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Inventory.Location" class="control-label m-0 ml-1 p-0"></label>
+                    <input asp-for="Inventory.Location" class="form-control col-6 ml-1" />
+                    <span asp-validation-for="Inventory.Location" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Inventory.QtyInStock" class="control-label m-0 ml-1 p-0"></label>
+                    <input asp-for="Inventory.QtyInStock" class="form-control col-6 ml-1" />
+                    <span asp-validation-for="Inventory.QtyInStock" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Inventory.ReorderQty" class="control-label m-0 ml-1 p-0"></label>
+                    <input asp-for="Inventory.ReorderQty" class="form-control col-6 ml-1" />
+                    <span asp-validation-for="Inventory.ReorderQty" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Inventory.UnitCost" class="control-label m-0 ml-1 p-0"></label>
+                    <input asp-for="Inventory.UnitCost" class="form-control col-6 ml-1" />
+                    <span asp-validation-for="Inventory.UnitCost" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Inventory.IsActive" class="control-label col-6 ml-1"></label>
+                    <input asp-for="Inventory.IsActive" checked />
+                    <span asp-validation-for="Inventory.IsActive" class="text-danger"></span>
+                </div>              
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-secondary ml-1" />
+                </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index" class="btn-sm btn-outline-secondary">Back to List</a>
+</div>
+<partial name="_ValidationScriptsPartial" />
+

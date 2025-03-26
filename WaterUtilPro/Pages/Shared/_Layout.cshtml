@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Levi Kirland">
+    <title>Restaurant Meal Planner</title>
+    <partial name="_Styles" />
+
+</head>
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <partial name="_TopNavigation" />
+        <partial name="_MainNavigation" />
+        <div class="content-wrapper">
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-1 ">
+
+                        <div class="col-sm-6">
+                            @* <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active">Starter Page</li>
+                            </ol> *@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="container-fluid">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+        <partial name="_SidebarContent" />
+        <partial name="_Footer" />
+    </div>
+    <partial name="_Scripts" />
+
+</body>
+</html>

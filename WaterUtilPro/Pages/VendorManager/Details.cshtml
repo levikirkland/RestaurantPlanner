@@ -1,0 +1,42 @@
+﻿@page
+@model WaterUtilPro.Pages.VendorManager.DetailsModel
+
+<link rel="stylesheet" href="~/@(nameof(WaterUtilPro)).styles.css" />
+
+<h3>Vendor details</h3>
+<div class="row">
+    <div class="col-md-6">
+        <div class="mb-3">
+            <label class="small mb-1" >Company Name</label>
+            <input class="form-control" value="@Model.Vendor.Name" readonly>
+        </div>
+        <div class="row gx-3 mb-3">
+            <div class="col-md-6">
+                <label class="small mb-1" >Contact name</label>
+                <input class="form-control" value="@Model.Vendor.FullAddress" readonly>
+            </div>
+            <div class="col-md-6">
+                <label class="small mb-1" >Location</label>
+                <input class="form-control" value="@Model.Vendor.FullAddress" readonly>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="small mb-1" >Email address</label>
+            <input class="form-control" value="@Model.Vendor.EmailAddress" readonly>
+        </div>
+        <div class="row gx-3 mb-3">
+            <div class="col-md-6">
+                <label class="small mb-1" >Phone number</label>
+                <input class="form-control" value="@Model.Vendor.USPhone" readonly>
+            </div>
+            <div class="col-md-6">
+                <label class="small mb-1" >Active</label>
+                <input class="form-control" value="@Model.Vendor.IsActive.ToString()" readonly>
+            </div>
+        </div>
+    </div>
+</div>
+ <div class="ml-1 pt-2">
+    <a asp-page="./Edit" asp-route-id="@Model.Vendor.Id" class="btn btn-secondary">Edit</a> |
+    <a asp-page="./Index" class="btn-sm btn-outline-secondary">Back to List</a>
+</div>

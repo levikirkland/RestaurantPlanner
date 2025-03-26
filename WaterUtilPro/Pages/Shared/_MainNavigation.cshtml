@@ -1,0 +1,79 @@
+﻿@using Models
+@using Microsoft.AspNetCore.Identity;
+@using WaterUtilPro.Helpers
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<aside class="main-sidebar sidebar-dark-primary ">
+    <a href="~/Index" class="brand-link">
+        <i class="fas fa-water"></i>   
+        <span class="brand-text font-weight-light">Water Util Pro</span>
+    </a>
+    <div class="sidebar">
+        @if (User.Identity!.IsAuthenticated)
+        {
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+               @*  <div class="image">
+                    <img src="~/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                </div> *@
+                <div class="info">
+                    <a href="/UserManager/UserProfile" class="d-block">Hi, @User.Identity.Name</a>
+                </div>
+            </div>
+        }
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-item ">
+                    <a asp-page="/Index" class="nav-link">
+                        <i class="nav-icon fas fa-home"></i>
+                        <p>
+                            Home
+                        </p>
+                    </a>
+                 </li> 
+                <li class="nav-item ">
+                    <a asp-page="/InventoryManager/Index" class="nav-link">
+                        <i class="nav-icon fas fa-table-list"></i>
+                        <p>
+                            Inventory Manager
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a asp-page="/VendorManager/Index" class="nav-link">
+                        <i class="nav-icon fas fa-store"></i>
+                        <p>
+                            Vendor Manager
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a asp-page="/Orders/Index" class="nav-link">
+                        <i class="nav-icon fas fa-cart-arrow-down"></i>
+                        <p>
+                            Orders
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-header">SETTINGS</li>
+                <li class="nav-item ">
+                    <a asp-page="/AccountManager/Index" class="nav-link">
+                        <i class="nav-icon fa-solid fa-sliders"></i>
+                        <p>
+                            Account Settings
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a asp-page="/Settings/Index" class="nav-link">
+                        <i class="nav-icon fas fa-gears"></i>
+                        <p>
+                            Settings
+                        </p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</aside>     
